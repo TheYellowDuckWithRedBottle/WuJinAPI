@@ -10,7 +10,7 @@ namespace WuJinAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class BuildingController:ControllerBase
+    public class BuildingController : ControllerBase
     {
         private BuildingService BuildingService;
         public BuildingController(BuildingService buildingService)
@@ -23,5 +23,13 @@ namespace WuJinAPI.Controllers
             return BuildingService.GetAll();
 
         }
-    }
+        [HttpGet]
+        public ActionResult GetBuilding([FromQuery] string BuildNo, [FromQuery] string RoomId)
+        {
+            QueryParameter queryParameter = new QueryParameter() {RoomId=RoomId,NatbuildNo=BuildNo };
+            var building = BuildingService.GetOneRealEstate(queryParameter);
+            if (building == null) return NotFound();
+            else return Ok(building);
+        }
+     }
 }
