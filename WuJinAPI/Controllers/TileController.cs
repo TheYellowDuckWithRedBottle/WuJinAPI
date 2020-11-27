@@ -22,11 +22,6 @@ namespace WuJinAPI.Controllers
         {
             _tileService = tileService;
         }
-        [HttpGet]
-        public async Task<List<Tile>> Get()
-        {
-            return await _tileService.Get();
-        }
         /// <summary>
         /// 获取影像
         /// </summary>

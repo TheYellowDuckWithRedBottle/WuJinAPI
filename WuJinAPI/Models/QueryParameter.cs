@@ -8,10 +8,7 @@ namespace WuJinAPI.Models
 {
     public class QueryParameter : PaginationBase
     {
-        public string EstateUnitNo;
-        public string HouseHoldeID;
-        public string NatbuildNo;
-        public string FloLayer;
+        public string EstateNo;
         public string RoomId;
     }
 }

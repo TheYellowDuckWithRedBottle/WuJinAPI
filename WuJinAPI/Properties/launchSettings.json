@@ -4,8 +4,8 @@
     "WuJinAPI": {
       "commandName": "Project",
       "launchBrowser": false,
-      "launchUrl": "weatherforecast",
-      "applicationUrl": "http://localhost:5000",
+      "launchUrl": "api/RealEstate/GetRealEstate",
+      "applicationUrl": "http://localhost:5001",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

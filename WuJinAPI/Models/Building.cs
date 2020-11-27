@@ -15,12 +15,13 @@ namespace WuJinAPI.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+
         [JsonProperty("房地号")]
         public string LandNo { get; set; }
-        // [Column("Location")]
+       
         [JsonProperty("房屋坐落")]
         public string Location { get; set; }
-        //[Column("PublicSecBuildingNo")]
         [JsonProperty("公安幢号")]
         public string PublicSecBuildingNo { get; set; }
         [JsonProperty("房号")]
