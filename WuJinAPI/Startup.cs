@@ -1,12 +1,14 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using WuJinAPI.JWT;
@@ -31,6 +33,7 @@ namespace WuJinAPI
         /// 
         /// </summary>
         public IConfiguration Configuration { get; }
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         /// <summary>
         /// 
         /// </summary>
@@ -56,6 +59,10 @@ namespace WuJinAPI
             //    c.CustomSchemaIds(type => type.FullName);// 可以解决相同类名会报错的问题
             //    //c.OperationFilter<AuthTokenHeaderParameter>();
             //});
+            services.AddMvc(options =>
+            {
+                options.EnableEndpointRouting = false;
+            });
             services.AddTransient<ITokenHelper, TokenHelper>();
             services.Configure<JWTConfig>(Configuration.GetSection("JWTConfig"));
             // services.AddDbContext<BuildingsContext>(options => options(Configuration.GetConnectionString("BuildingConnection")));
@@ -64,9 +71,19 @@ namespace WuJinAPI
                 options.DefaultAuthenticateScheme= JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins, builder =>
+                {
+                    builder.AllowAnyHeader()
+                    .AllowAnyOrigin()
+                    .WithMethods("GET", "POST", "HEAD", "PUT", "DELETE", "OPTIONS");
+                });
+            });
             services.AddSingleton<TileService>();
             services.AddSingleton<BuildingService>();
-            services.AddControllers();//
+   
+            services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
         }
         /// <summary>
         /// 
@@ -97,11 +114,8 @@ namespace WuJinAPI
             //});
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseCors(MyAllowSpecificOrigins);
+            app.UseMvc();
         }
     }
 }

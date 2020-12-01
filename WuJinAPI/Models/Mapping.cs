@@ -11,6 +11,6 @@ namespace WuJinAPI.Models
     {
         public string RoomId { get; set; }
         public string BuildingNo { get; set; }
-        public string EstateUnitNo { get; set; }
+        public string RealEstateNo { get; set; }
     }
 }

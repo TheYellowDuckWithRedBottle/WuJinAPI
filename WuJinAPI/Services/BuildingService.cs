@@ -54,7 +54,7 @@ namespace WuJinAPI.Services
         {
             FilterDefinition<Building> filter;//查询表达式
             var filterBuilder = Builders<Building>.Filter;//查询构建器
-                                                          // filter = filterBuilder.Eq("EstateUnitNo", query.NatbuildNo) & filterBuilder.Eq("RoomId", query.RoomId) & filterBuilder.Eq("FloLayerId", query.FloLayer);
+            // filter = filterBuilder.Eq("EstateUnitNo", query.NatbuildNo) & filterBuilder.Eq("RoomId", query.RoomId) & filterBuilder.Eq("FloLayerId", query.FloLayer);
             filter = filterBuilder.Eq("EstateUnitNo", query.EstateNo);
             var building = _Building.Find(filter).FirstOrDefault();
             return building;
@@ -71,7 +71,6 @@ namespace WuJinAPI.Services
 
                 .ToList();
             return new PaginatedList<Building>(parameter.PageIndex, parameter.PageSize, count, buildings);
-
         }
         public Building Get(string EstateUnitNo)
         {

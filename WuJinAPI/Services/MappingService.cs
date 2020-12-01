@@ -20,12 +20,24 @@ namespace WuJinAPI.Services
 
         public List<Mapping> GetAll() =>
             _Mapping.Find(Mapping => true).ToList();
+        public List<Mapping> GetHouseHold(string EstateNo)
+        {
+            var filterBuilder = Builders<Mapping>.Filter;
+            FilterDefinition<Mapping> filter = filterBuilder.Eq("RealEstateNo", EstateNo);
+            var mapping = _Mapping.Find(filter).ToList();
+            return mapping;
+        }
         public Mapping GetOne( string BuildingNo, string RoomId)
         {
             
             var filterBuilder = Builders<Mapping>.Filter;
-             FilterDefinition<Mapping> filter = filterBuilder.Eq("RoomId", RoomId) & filterBuilder.Eq("BuildingNo", BuildingNo);
+           
+           FilterDefinition<Mapping> filter = filterBuilder.Eq("RoomId", RoomId) & filterBuilder.Eq("BuildingNo", BuildingNo);
             var mapping = _Mapping.Find(filter).FirstOrDefault();
+
+            // FilterDefinition<Mapping> filter = filterBuilder.Eq("RoomId", RoomId);
+            //var mappingList = _Mapping.Find(filter).ToList();
+            //var mapping = mappingList.Find(item => item.BuildingNo == BuildingNo);
             return mapping;
         }
     }

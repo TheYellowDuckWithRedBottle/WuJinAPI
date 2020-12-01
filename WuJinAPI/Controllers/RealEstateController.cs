@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using WuJinAPI.Models;
+using WuJinAPI.Resources;
 using WuJinAPI.Services;
 namespace WuJinAPI.Controllers
 {
@@ -23,6 +24,14 @@ namespace WuJinAPI.Controllers
             return BuildingService.GetBuildings(parameter);
 
         }
+        [HttpGet]
+        public ActionResult GetRealEstateByHouseId([FromQuery] string RealEstateNo)
+        {
+            MappingService mapping = new MappingService();
+            var mappingList= mapping.GetHouseHold(RealEstateNo);
+            if (mappingList == null) return Ok(new BuildingResources());
+            else return Ok(mappingList);
+        }
         /// <summary>
         /// 根据栋号和房间号获取不动产信息
         /// </summary>
@@ -34,9 +43,9 @@ namespace WuJinAPI.Controllers
         {
             MappingService mapping = new MappingService();
             var mappingObj= mapping.GetOne(NatbuildNo, RoomId);
-            if (mappingObj == null) return NotFound();
+            if (mappingObj.RealEstateNo == null) return Ok(new BuildingResources());
            
-            QueryParameter queryParameter = new QueryParameter() {EstateNo= mappingObj.EstateUnitNo };
+            QueryParameter queryParameter = new QueryParameter() {EstateNo= mappingObj.RealEstateNo };
             var building = BuildingService.GetOneRealEstate(queryParameter);
             if (building == null) return NotFound();
             else return Ok(building);

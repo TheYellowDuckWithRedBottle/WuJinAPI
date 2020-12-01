@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 using Newtonsoft.Json;
@@ -13,9 +8,12 @@ namespace WuJinAPI.Models
     [BsonIgnoreExtraElements]
     public class Building
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        //[BsonId]
+        //[BsonIgnore]
+        //[BsonRepresentation(BsonType.ObjectId)]
+        //public string Id { get; set; }
+        [JsonProperty("不动产单元号")]
+        public string EstateUnitNo { get; set; }
 
         [JsonProperty("房地号")]
         public string LandNo { get; set; }
@@ -44,7 +42,6 @@ namespace WuJinAPI.Models
         public string BuildingNo { get; set; }
         [JsonProperty("ROOMCODE")]
         public string RoomCode   { get; set; }
-        [JsonProperty("不动产单元号")]
-        public string EstateUnitNo   { get; set; }
+        
     }
 }
